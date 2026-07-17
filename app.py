@@ -4,7 +4,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 
 
 app = Flask(__name__)
@@ -106,6 +106,12 @@ def storage_error_response(error):
 
 
 # ---------- REST API routes ----------
+
+@app.get("/")
+def dashboard():
+    """Serve the single-file learning dashboard from the project folder."""
+    return send_from_directory(Path(__file__).resolve().parent, "index.html")
+
 
 @app.post("/api/courses")
 def create_course():
